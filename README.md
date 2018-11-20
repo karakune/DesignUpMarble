@@ -1,4 +1,4 @@
-# DesignUpMarble
+# DesignUpMarble - Level Design Template!
 
 # How to publish your level:
 
