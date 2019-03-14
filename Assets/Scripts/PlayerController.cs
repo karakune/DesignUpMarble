@@ -7,11 +7,12 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     public float speed;
+    public bool canMove = true;
 
-	void Start()
-	{
-		rb = GetComponent<Rigidbody>();
-	}
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
@@ -26,10 +27,29 @@ public class PlayerController : MonoBehaviour
         camRight.y = 0f;
         camRight.Normalize();
 
-		// Move the character in relation to the camera
-        Vector3 movementX = camRight * Input.GetAxis("Horizontal");
-        Vector3 movementZ = camForward * Input.GetAxis("Vertical");
-        Vector3 movement = movementX + movementZ;
-        rb.AddForce(movement * speed);
+        if (canMove)
+        {
+            // Move the character in relation to the camera
+            Vector3 movementX = camRight * Input.GetAxis("Horizontal");
+            Vector3 movementZ = camForward * Input.GetAxis("Vertical");
+            Vector3 movement = movementX + movementZ;
+            rb.AddForce(movement * speed);
+        }
+    }
+
+    void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.name.Contains("Plane"))
+        {
+            canMove = true;
+        }
+    }
+
+    void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.name.Contains("Plane"))
+        {
+            canMove = false;
+        }
     }
 }
